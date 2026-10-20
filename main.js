@@ -171,7 +171,7 @@
     }
   })
 
-  // --- EFECTO VISUAL: ESCARCHA CAYENDO, DESTELLOS Y MARIPOSAS ---
+  // --- EFECTO VISUAL: ESCARCHA CAYENDO Y DESTELLOS DE LUZ ---
   const iniciarEfectosMagicos = () => {
     const canvas = document.getElementById('sparkle-canvas')
     if (!canvas) return
@@ -250,36 +250,6 @@
       requestAnimationFrame(animarEscarcha)
     }
     animarEscarcha()
-
-    // Crear mariposas lilas/brillantes volando suavemente
-    const contenedorMariposas = document.getElementById('butterflies-container')
-    if (!contenedorMariposas) return
-
-    const svgMariposa = `
-      <svg viewBox="0 0 64 64" width="100%" height="100%">
-        <defs>
-          <linearGradient id="gradLila" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#f3d5ff"/>
-            <stop offset="50%" stop-color="#c77dff"/>
-            <stop offset="100%" stop-color="#7b2cbf"/>
-          </linearGradient>
-        </defs>
-        <path fill="url(#gradLila)" d="M32 28 C20 6, 2 10, 6 28 C9 40, 22 40, 32 34 C24 42, 12 52, 20 58 C26 62, 31 50, 32 40 C33 50, 38 62, 44 58 C52 52, 40 42, 32 34 C42 40, 55 40, 58 28 C62 10, 44 6, 32 28 Z"/>
-      </svg>
-    `
-
-    for (let i = 0; i < 7; i++) {
-      const b = document.createElement('div')
-      b.className = 'butterfly-wrapper'
-      const tamano = Math.floor(Math.random() * 18) + 22 // Entre 22px y 40px
-      b.style.width = `${tamano}px`
-      b.style.height = `${tamano}px`
-      b.style.left = `${Math.random() * 88 + 4}%`
-      b.style.animationDuration = `${Math.random() * 8 + 11}s`
-      b.style.animationDelay = `${Math.random() * 9}s`
-      b.innerHTML = `<div class="butterfly-wing" style="width:100%;height:100%;">${svgMariposa}</div>`
-      contenedorMariposas.appendChild(b)
-    }
   }
 
   iniciarEfectosMagicos()
