@@ -1,0 +1,285 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f3e8fa;
+  display: flex;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Pantalla de bienvenida inicial */
+#welcome-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, #ffffff 0%, #ead1f7 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 20px;
+  text-align: center;
+  transition: opacity 0.6s ease;
+}
+
+.welcome-card {
+  background: rgba(255, 255, 255, 0.94);
+  padding: 40px 28px;
+  border-radius: 24px;
+  box-shadow: 0 12px 35px rgba(93, 42, 117, 0.2);
+  max-width: 420px;
+  width: 100%;
+  border: 2px solid #d8b4e8;
+}
+
+.welcome-subtitle {
+  color: #7a3e8d;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.welcome-title {
+  font-family: 'Cinzel', serif;
+  color: #5b1d70;
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.welcome-name {
+  font-family: 'Cinzel', serif;
+  color: #361c4e;
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+}
+
+.welcome-guest {
+  font-weight: 700;
+  color: #6c2585;
+  margin-bottom: 18px;
+  font-size: 1.05rem;
+}
+
+.btn-open {
+  background: linear-gradient(135deg, #7c2d96, #4a155c);
+  color: #fff;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(91, 29, 112, 0.35);
+  transition: transform 0.2s ease;
+}
+
+.btn-open:hover {
+  transform: scale(1.05);
+}
+
+/* Botón flotante de música */
+.music-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #5b1d70;
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1500;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenedor principal con las dimensiones exactas de tu foto (2611 x 11806) */
+.box {
+  position: relative;
+  width: 100%;
+  max-width: 550px;
+  aspect-ratio: 2611 / 11806;
+  background-color: #ead4f5;
+  box-shadow: 0 0 30px rgba(60, 20, 80, 0.2);
+}
+
+.bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Etiqueta opcional para el nombre del invitado por URL */
+.guest-banner {
+  position: absolute;
+  top: 61.2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: #361c4e;
+  font-size: clamp(1rem, 4vw, 1.4rem);
+  z-index: 10;
+}
+
+/* Números de la cuenta regresiva centrados entre FALTAN y Días | Horas | Minutos | Segundos */
+.countdown-overlay {
+  position: absolute;
+  top: 68.1%;
+  left: 14.5%;
+  width: 71%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.time-val {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: #331a4a;
+  font-size: clamp(1.25rem, 5vw, 2rem);
+  letter-spacing: 1px;
+}
+
+/* Botones en PNG transparente */
+.img-btn {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: block;
+  transition: transform 0.2s ease;
+  text-decoration: none;
+  padding: 0;
+  z-index: 10;
+}
+
+.img-btn:hover {
+  transform: translateX(-50%) scale(1.05);
+}
+
+.btn-graphic {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 5px 10px rgba(54, 28, 78, 0.25));
+}
+
+/* Posiciones exactas sobre tu imagen fondo.jpeg */
+.btn-misa {
+  top: 75.8%;
+  width: 48%;
+}
+
+.btn-recepcion {
+  top: 83.6%;
+  width: 48%;
+}
+
+.btn-asistencia {
+  top: 92.2%;
+  width: 66%;
+}
+
+/* Modal de Confirmación de Asistencia */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(35, 12, 50, 0.72);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  padding: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.modal-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 400px;
+  padding: 28px 24px;
+  border-radius: 20px;
+  position: relative;
+  text-align: left;
+  border: 2px solid #e1bee7;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+}
+
+.modal-card h3 {
+  font-family: 'Cinzel', serif;
+  color: #5b1d70;
+  text-align: center;
+  margin-bottom: 6px;
+  font-size: 1.35rem;
+}
+
+.modal-card p {
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 18px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #888;
+  cursor: pointer;
+}
+
+#rsvp-form label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #361c4e;
+  margin-bottom: 5px;
+}
+
+#rsvp-form input,
+#rsvp-form select {
+  width: 100%;
+  padding: 11px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #cda5d8;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+#btn-guardar {
+  width: 100%;
+  background: linear-gradient(135deg, #7c2d96, #4a155c);
+  color: white;
+  border: none;
+  padding: 13px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#estado-envio {
+  margin-top: 12px;
+  font-weight: 600;
+  text-align: center;
+}

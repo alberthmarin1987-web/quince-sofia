@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Quince Años - Sofia Alvarez Cardona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Librería Day.js para la cuenta regresiva -->
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+</head>
+<body>
+
+  <!-- Pantalla de apertura (Sin tildes en el nombre) -->
+  <div id="welcome-screen">
+    <div class="welcome-card">
+      <p class="welcome-subtitle">Te invito a celebrar</p>
+      <h1 class="welcome-title">Mis Quince Años</h1>
+      <h2 class="welcome-name">Sofia Alvarez Cardona</h2>
+      <p id="welcome-guest-name" class="welcome-guest"></p>
+      <button id="btn-open-invite" class="btn-open">Abrir Invitación ✨</button>
+    </div>
+  </div>
+
+  <!-- Botón flotante para pausar/activar la música -->
+  <button id="music-toggle" class="music-btn hidden" title="Música">🔊</button>
+
+  <!-- Contenedor principal de la tarjeta -->
+  <div class="box">
+    <!-- Imagen de fondo apuntando exactamente a tu archivo fondo.jpeg -->
+    <img 
+      id="bg-img" 
+      src="./assets/fondo.jpeg" 
+      alt="" 
+      class="bg-image"
+      onerror="if (!this.dataset.retry) { this.dataset.retry = '1'; this.src = './assets/fondo.jpeg.jpeg'; }"
+    >
+
+    <!-- Nombre personalizado del invitado (si se usa ?invitado= en el link) -->
+    <div id="guest-name-banner" class="guest-banner"></div>
+
+    <!-- Reloj de cuenta regresiva (ubicado sobre Días, Horas, Minutos, Segundos) -->
+    <div class="countdown-overlay">
+      <div class="time-val" id="days">00</div>
+      <div class="time-val" id="hours">00</div>
+      <div class="time-val" id="minutes">00</div>
+      <div class="time-val" id="seconds">00</div>
+    </div>
+
+    <!-- Botón 1: Cómo llegar a la Misa (Iglesia Divino Niño - 6:30 PM) -->
+    <a href="https://maps.app.goo.gl/kMYxt8qhjLgtZiqb9" target="_blank" class="img-btn btn-misa">
+      <img src="./assets/como-llegar.png" alt="Cómo llegar a la Misa" class="btn-graphic">
+    </a>
+
+    <!-- Botón 2: Cómo llegar a la Recepción (Complejo Deportivo Lagol - 7:00 PM) -->
+    <a href="https://maps.app.goo.gl/q3E4CyX84NFPPCsY7" target="_blank" class="img-btn btn-recepcion">
+      <img src="./assets/como-llegar.png" alt="Cómo llegar a la Recepción" class="btn-graphic">
+    </a>
+
+    <!-- Botón 3: Confirmar Asistencia (Abre formulario de Base de Datos) -->
+    <button type="button" id="btn-open-rsvp" class="img-btn btn-asistencia">
+      <img src="./assets/asistencia.png" alt="Confirma tu asistencia" class="btn-graphic">
+    </button>
+  </div>
+
+  <!-- Ventana Emergente (Modal) para guardar Nombre Completo y Teléfono -->
+  <div id="rsvp-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <button type="button" class="close-btn" id="close-modal">&times;</button>
+      <h3>Confirmar Asistencia</h3>
+      <p>Mis Quince Años - Sofia Alvarez Cardona<br><small>Sábado 28 de Noviembre de 2026</small></p>
+
+      <form id="rsvp-form">
+        <label for="input-nombre">Nombre Completo *</label>
+        <input type="text" id="input-nombre" required placeholder="Ej: Juan Carlos Perez">
+
+        <label for="input-telefono">Teléfono / WhatsApp *</label>
+        <input type="tel" id="input-telefono" required placeholder="Ej: 310 123 4567">
+
+        <label for="input-asistencia">¿Nos acompañarás?</label>
+        <select id="input-asistencia">
+          <option value="Sí asistiré">¡Sí, allí estaré!</option>
+          <option value="No podré asistir">No podré asistir</option>
+        </select>
+
+        <button type="submit" id="btn-guardar">Enviar Confirmación</button>
+        <p id="estado-envio"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
