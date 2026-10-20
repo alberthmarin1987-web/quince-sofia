@@ -170,4 +170,117 @@
       btnGuardar.textContent = 'Enviar Confirmación'
     }
   })
+
+  // --- EFECTO VISUAL: ESCARCHA CAYENDO, DESTELLOS Y MARIPOSAS ---
+  const iniciarEfectosMagicos = () => {
+    const canvas = document.getElementById('sparkle-canvas')
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+
+    const ajustarTamano = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
+    ajustarTamano()
+    window.addEventListener('resize', ajustarTamano)
+
+    // Colores a juego con tu tarjeta: blanco brillante, plata, lila y rosa pastel
+    const colores = ['#ffffff', '#f8e8ff', '#e0aaff', '#ffd6ff', '#c77dff']
+    const particulas = Array.from({ length: 65 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 3.2 + 1,
+      speedY: Math.random() * 1.1 + 0.4,
+      speedX: (Math.random() - 0.5) * 0.6,
+      color: colores[Math.floor(Math.random() * colores.length)],
+      alpha: Math.random(),
+      alphaSpeed: Math.random() * 0.025 + 0.008,
+      esEstrella: Math.random() > 0.65
+    }))
+
+    const dibujarEstrella = (cx, cy, radio, color, alpha) => {
+      ctx.save()
+      ctx.globalAlpha = alpha
+      ctx.fillStyle = color
+      ctx.shadowBlur = 10
+      ctx.shadowColor = '#e0aaff'
+      ctx.beginPath()
+      for (let i = 0; i < 4; i++) {
+        ctx.lineTo(
+          cx + Math.cos((i * Math.PI) / 2) * radio * 2.4,
+          cy + Math.sin((i * Math.PI) / 2) * radio * 2.4
+        )
+        ctx.lineTo(
+          cx + Math.cos(((i + 0.5) * Math.PI) / 2) * (radio * 0.5),
+          cy + Math.sin(((i + 0.5) * Math.PI) / 2) * (radio * 0.5)
+        )
+      }
+      ctx.closePath()
+      ctx.fill()
+      ctx.restore()
+    }
+
+    const animarEscarcha = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      particulas.forEach((p) => {
+        p.y += p.speedY
+        p.x += p.speedX + Math.sin(p.y * 0.02) * 0.3
+        p.alpha += p.alphaSpeed
+
+        if (p.alpha >= 1 || p.alpha <= 0.15) p.alphaSpeed *= -1
+        if (p.y > canvas.height) {
+          p.y = -10
+          p.x = Math.random() * canvas.width
+        }
+
+        if (p.esEstrella) {
+          dibujarEstrella(p.x, p.y, p.size, p.color, Math.max(0, Math.min(1, p.alpha)))
+        } else {
+          ctx.save()
+          ctx.globalAlpha = Math.max(0, Math.min(1, p.alpha))
+          ctx.fillStyle = p.color
+          ctx.shadowBlur = 6
+          ctx.shadowColor = '#ffffff'
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.restore()
+        }
+      })
+      requestAnimationFrame(animarEscarcha)
+    }
+    animarEscarcha()
+
+    // Crear mariposas lilas/brillantes volando suavemente
+    const contenedorMariposas = document.getElementById('butterflies-container')
+    if (!contenedorMariposas) return
+
+    const svgMariposa = `
+      <svg viewBox="0 0 64 64" width="100%" height="100%">
+        <defs>
+          <linearGradient id="gradLila" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f3d5ff"/>
+            <stop offset="50%" stop-color="#c77dff"/>
+            <stop offset="100%" stop-color="#7b2cbf"/>
+          </linearGradient>
+        </defs>
+        <path fill="url(#gradLila)" d="M32 28 C20 6, 2 10, 6 28 C9 40, 22 40, 32 34 C24 42, 12 52, 20 58 C26 62, 31 50, 32 40 C33 50, 38 62, 44 58 C52 52, 40 42, 32 34 C42 40, 55 40, 58 28 C62 10, 44 6, 32 28 Z"/>
+      </svg>
+    `
+
+    for (let i = 0; i < 7; i++) {
+      const b = document.createElement('div')
+      b.className = 'butterfly-wrapper'
+      const tamano = Math.floor(Math.random() * 18) + 22 // Entre 22px y 40px
+      b.style.width = `${tamano}px`
+      b.style.height = `${tamano}px`
+      b.style.left = `${Math.random() * 88 + 4}%`
+      b.style.animationDuration = `${Math.random() * 8 + 11}s`
+      b.style.animationDelay = `${Math.random() * 9}s`
+      b.innerHTML = `<div class="butterfly-wing" style="width:100%;height:100%;">${svgMariposa}</div>`
+      contenedorMariposas.appendChild(b)
+    }
+  }
+
+  iniciarEfectosMagicos()
 })()
