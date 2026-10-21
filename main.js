@@ -1,9 +1,12 @@
 ;(function () {
-  // URL de tu aplicación web en Google Apps Script (Ya configurada)
+  // URL de tu aplicación web en Google Apps Script
   const DATABASE_URL = 'https://script.google.com/macros/s/AKfycbxjPwPP7o0HTFYDJON8KoyCtqwfOFT5TZyPFOahg2wOY1KwaXVk5lgpVNMTMqpJNVk3mQ/exec'
 
   // Fecha exacta del evento: Sábado 28 de Noviembre de 2026 a las 6:30 PM (Misa)
   const fechaEvento = dayjs('2026-11-28T18:30:00')
+
+  // Fecha límite para recibir registros: 5 de Noviembre de 2026 a las 23:59
+  const fechaLimiteRegistro = dayjs('2026-11-05T23:59:59')
 
   // Configuración de música de fondo
   const audio = new Audio('./assets/musica.mp3')
@@ -91,7 +94,6 @@
           canvas.height = img.naturalHeight
           ctx.drawImage(img, 0, 0)
 
-          // Verificamos la esquina inferior izquierda; si ya es transparente (PNG real), no hace falta tocarla
           const esquina = ctx.getImageData(0, canvas.height - 1, 1, 1).data
           if (esquina[3] === 0) return
 
@@ -116,13 +118,18 @@
   }
   asegurarTransparenciaBotones()
 
-  // Modal y envío a Base de Datos (Google Sheets)
+  // Modal y envío a Base de Datos (Google Sheets) con bloqueo por fecha (5 de Noviembre)
   const modal = document.getElementById('rsvp-modal')
   const btnOpenRsvp = document.getElementById('btn-open-rsvp')
   const btnCloseModal = document.getElementById('close-modal')
   const form = document.getElementById('rsvp-form')
 
   btnOpenRsvp.addEventListener('click', () => {
+    const ahora = dayjs()
+    if (ahora.isAfter(fechaLimiteRegistro)) {
+      alert('El plazo para confirmar asistencia finalizó el 5 de Noviembre de 2026. ¡Muchas gracias a todos por responder!')
+      return
+    }
     modal.classList.remove('hidden')
   })
 
@@ -164,7 +171,7 @@
       }, 2000)
     } catch (error) {
       estado.style.color = '#c62828'
-      estado.textContent = 'Hubo un error al guardar. Intenta nuevamente.'
+      estado.textContent = 'Hubo al registrar. Intenta nuevamente.'
     } finally {
       btnGuardar.disabled = false
       btnGuardar.textContent = 'Enviar Confirmación'
@@ -184,7 +191,6 @@
     ajustarTamano()
     window.addEventListener('resize', ajustarTamano)
 
-    // Colores a juego con tu tarjeta: blanco brillante, plata, lila y rosa pastel
     const colores = ['#ffffff', '#f8e8ff', '#e0aaff', '#ffd6ff', '#c77dff']
     const particulas = Array.from({ length: 65 }, () => ({
       x: Math.random() * canvas.width,
