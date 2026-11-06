@@ -5,8 +5,8 @@
   // Fecha exacta del evento: Sábado 28 de Noviembre de 2026 a las 6:30 PM (Misa)
   const fechaEvento = dayjs('2026-11-28T18:30:00')
 
-  // Fecha límite para recibir registros: 5 de Noviembre de 2026 a las 23:59
-  const fechaLimiteRegistro = dayjs('2026-11-05T23:59:59')
+  // Fecha límite para recibir registros: 15 de Noviembre de 2026 a las 23:59
+  const fechaLimiteRegistro = dayjs('2026-11-15T23:59:59')
 
   // Configuración de música de fondo
   const audio = new Audio('./assets/musica.mp3')
@@ -118,7 +118,7 @@
   }
   asegurarTransparenciaBotones()
 
-  // Modal y envío a Base de Datos (Google Sheets) con bloqueo por fecha (5 de Noviembre)
+  // Modal y envío a Base de Datos (Google Sheets) con bloqueo por fecha (15 de Noviembre)
   const modal = document.getElementById('rsvp-modal')
   const btnOpenRsvp = document.getElementById('btn-open-rsvp')
   const btnCloseModal = document.getElementById('close-modal')
@@ -127,7 +127,7 @@
   btnOpenRsvp.addEventListener('click', () => {
     const ahora = dayjs()
     if (ahora.isAfter(fechaLimiteRegistro)) {
-      alert('El plazo para confirmar asistencia finalizó el 5 de Noviembre de 2026. ¡Muchas gracias a todos por responder!')
+      alert('El plazo para confirmar asistencia finalizó el 15 de Noviembre de 2026. ¡Muchas gracias a todos por responder!')
       return
     }
     modal.classList.remove('hidden')
@@ -171,7 +171,7 @@
       }, 2000)
     } catch (error) {
       estado.style.color = '#c62828'
-      estado.textContent = 'Hubo al registrar. Intenta nuevamente.'
+      estado.textContent = 'Hubo un error al registrar. Intenta nuevamente.'
     } finally {
       btnGuardar.disabled = false
       btnGuardar.textContent = 'Enviar Confirmación'
